@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Size of `code` command, including space and NUL
 #define CMD_SIZE 6
@@ -16,6 +17,14 @@ int main(int argc, char *argv[])
 
     // Check for no argument
     else if (argc == 1)
+    {
+        // Open VSCode in current directory
+        system("code .");
+        return 0;
+    }
+
+    // Check for argument as current directory (.)
+    else if (argc == 2 && strcmp(argv[1], ".") == 0)
     {
         // Open VSCode in current directory
         system("code .");
