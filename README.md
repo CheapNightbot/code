@@ -9,7 +9,7 @@
 If on Debian/Ubuntu based Linux distro, insall "build-essential" by running:
 
 ```bash
-sudo apt install -y build-essential'
+sudo apt install -y build-essential
 ```
 
 It will install GCC compiler and MAKE. Then simply run:
