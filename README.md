@@ -4,6 +4,8 @@
 
  ## Compile and run!
 
+ > You can also download compiled binary for Windows & Linux from [Releases](https://github.com/CheapNightbot/code/releases/latest)
+
 If on Debian/Ubuntu based Linux distro, insall "build-essential" by running:
 
 ```bash
