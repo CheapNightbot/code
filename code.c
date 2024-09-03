@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 // Size of `code` command, including space and NUL
 #define CMD_SIZE 6
@@ -30,6 +31,24 @@ int main(int argc, char *argv[])
         system("code .");
         return 0;
     }
+
+    struct stat sb;
+    if (stat(argv[1], &sb) == -1) {
+        perror("stat");
+        return 1;
+    }
+
+    // Check if the argument is a directory
+    else if (argc == 2 && S_ISDIR(sb.st_mode))
+    {
+        // Pass the folder to (actual) code command as an argument
+        char *cmd = malloc(CMD_SIZE + sizeof(argv[1]));
+        sprintf(cmd, "code %s", argv[1]);
+        system(cmd);
+        free(cmd);
+        return 0;
+    }
+
 
     // Create a new file with provided name
     char *filename = argv[1];
