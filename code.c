@@ -24,31 +24,32 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    // Check for argument as current directory (.)
-    else if (argc == 2 && strcmp(argv[1], ".") == 0)
+    // Check for argument as a directory
+    else if (argc == 2)
     {
-        // Open VSCode in current directory
-        system("code .");
-        return 0;
-    }
+        // Check if the argument is a directory
+        struct stat sb;
+        if (stat(argv[1], &sb) == 0)
+        {
+            if (argc == 2 && S_ISDIR(sb.st_mode))
+            {
+                // Pass the folder to (actual) code command as an argument
+                char *cmd_dir = malloc(CMD_SIZE + sizeof(argv[1]));
+                sprintf(cmd_dir, "code %s", argv[1]);
+                system(cmd_dir);
+                free(cmd_dir);
+                return 0;
+            }
+        }
 
-    struct stat sb;
-    if (stat(argv[1], &sb) == -1) {
-        perror("stat");
-        return 1;
+        // Check for argument as current directory (.)
+        else if (strcmp(argv[1], ".") == 0)
+        {
+            // Open VSCode in current directory
+            system("code .");
+            return 0;
+        }
     }
-
-    // Check if the argument is a directory
-    else if (argc == 2 && S_ISDIR(sb.st_mode))
-    {
-        // Pass the folder to (actual) code command as an argument
-        char *cmd = malloc(CMD_SIZE + sizeof(argv[1]));
-        sprintf(cmd, "code %s", argv[1]);
-        system(cmd);
-        free(cmd);
-        return 0;
-    }
-
 
     // Create a new file with provided name
     char *filename = argv[1];
